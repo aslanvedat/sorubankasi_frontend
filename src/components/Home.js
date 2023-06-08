@@ -6,13 +6,13 @@ class Home extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-lg-12 py-5 ">
-            <ul class="list-group list-group-horizontal-sm">
-              <li class="list-group-item list-group-item-action">Cras justo odio</li>
-              <li class="list-group-item list-group-item-action">Dapibus ac facilisis in</li>
-              <li class="list-group-item list-group-item-action">Morbi leo risus</li>
-              <li class="list-group-item list-group-item-action">Cras justo odio</li>
-              <li class="list-group-item list-group-item-action">Dapibus ac facilisis in</li>
-              <li class="list-group-item list-group-item-action">Morbi leo risus</li>
+            <ul className="list-group list-group-horizontal-sm">
+              <li className="list-group-item list-group-item-action">Cras justo odio</li>
+              <li className="list-group-item list-group-item-action">Dapibus ac facilisis in</li>
+              <li className="list-group-item list-group-item-action">Morbi leo risus</li>
+              <li className="list-group-item list-group-item-action">Cras justo odio</li>
+              <li className="list-group-item list-group-item-action">Dapibus ac facilisis in</li>
+              <li className="list-group-item list-group-item-action">Morbi leo risus</li>
             </ul>
           </div>
 
