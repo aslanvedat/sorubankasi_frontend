@@ -27,7 +27,7 @@ class Login extends React.Component {
             className="btn btn-primary fixed-button"
             data-toggle="button"
           >
-            Kayıt
+            Kayit
           </button>
           {/* span butonlari ayirmak icin gecici cozum!!*/}
           <span> </span>

@@ -1,5 +1,5 @@
 import React from "react";
-
+import axios from "axios";
 class AddStudent extends React.Component{
   state={
     userName:null,
@@ -8,6 +8,24 @@ class AddStudent extends React.Component{
     passwordTekrar:null
     
   }
+  handleRegister = event =>{
+    event.preventDefault();
+const body={
+  userName:this.state.userName,
+  email:this.state.email,
+  password:this.state.password,
+  passwordTekrar:this.state.passwordTekrar
+}
+//console.log yerine alert benzeri bir hata bildirimi gelecek
+axios.post("/api/auth/signup",body).then(Response=>{
+  console.log("kayit islemi basarili")
+}).catch(error=>{
+  console.log("kayit islemi basarisiz",error);
+})
+
+}
+
+
   onChange=(event)=>{
     const value=event.target.value;
     const name=event.target.name;
@@ -43,7 +61,7 @@ render(){
  
  
   </div>
-  <button type="submit" className="btn btn-primary">Kaydol</button>
+  <button onClick={this.handleRegister} type="submit" className="btn btn-primary">Kaydol</button>
 </form>
         
         </div>
