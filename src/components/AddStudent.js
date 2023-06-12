@@ -61,7 +61,10 @@ render(){
  
  
   </div>
-  <button onClick={this.handleRegister} type="submit" className="btn btn-primary">Kaydol</button>
+  <button onClick={this.handleRegister} type="submit" className="btn btn-primary">
+ giris {/* <a href="Home" className="btn btn-primary">giris</a> */}
+
+  </button>
 </form>
         
         </div>
