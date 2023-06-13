@@ -48,7 +48,7 @@ const Login = () => {
             <Form.Label>E-mail</Form.Label>
             <Form.Control
               type='email'
-              name="email"
+              name="mail"
               placeholder='E-mail Giriniz'
               onChange={onChange}
             />

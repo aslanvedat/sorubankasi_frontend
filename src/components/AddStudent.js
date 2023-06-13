@@ -42,7 +42,7 @@ const AddStudent = () => {
           <Form.Group className="mb-3">
             <Form.Label>E-mail</Form.Label>
             <Form.Control
-              type='email'
+              type='mail'
               name="mail"
               placeholder='E-mail Giriniz'
               onChange={onChange}
