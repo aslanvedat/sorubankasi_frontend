@@ -12,9 +12,9 @@ import AboutUs from "./components/AboutUs";
 import AddStudent from "./components/AddStudent";
 
 const routeLinks = {
-  home: '/ana-sayfa',
-  aboutus: '/',
-  login: '/giris-yap',
+  home: '/home',
+  aboutus: '/hakkimizda',
+  login: '/giris',
   register: '/kayit-ol',
 }
 

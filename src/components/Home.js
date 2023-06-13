@@ -1,9 +1,10 @@
 import React from "react";
-import ListGroup from 'react-bootstrap/ListGroup';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import Form from 'react-bootstrap/Form';
+import ListGroup from "react-bootstrap/ListGroup";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Home extends React.Component {
   render() {
@@ -50,9 +51,123 @@ class Home extends React.Component {
                     name="group1"
                   />
                 </ListGroup.Item>
-
               </ListGroup>
-              <Button variant="primary" className="mt-4">İlerle</Button>
+              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+            </Form>
+            <h2>Soru - 2</h2>
+            <Form>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(A) - Cevap - 1"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(B) - Cevap - 2"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(C) - Cevap - 3"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(D) - Cevap - 4"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+              </ListGroup>
+              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+            </Form>
+            <h2>Soru - 3</h2>
+            <Form>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(A) - Cevap - 1"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(B) - Cevap - 2"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(C) - Cevap - 3"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(D) - Cevap - 4"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+              </ListGroup>
+              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+            </Form>
+            <h2>Soru - 4</h2>
+            <Form>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(A) - Cevap - 1"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(B) - Cevap - 2"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(C) - Cevap - 3"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(D) - Cevap - 4"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+              </ListGroup>
+              <Button variant="primary" className="mt-4">
+                <Link to="/hakkimizda" className="btn btn-primary me-3">
+                  Bitir
+                </Link>
+              </Button>
             </Form>
           </Tab>
 
@@ -91,9 +206,52 @@ class Home extends React.Component {
                     name="group1"
                   />
                 </ListGroup.Item>
-
               </ListGroup>
-              <Button variant="primary" className="mt-4">İlerle</Button>
+              {/* <Button variant="primary" className="mt-4">
+               <Link to="/hakkimizda" className="btn btn-primary me-3">Bitir</Link> 
+              </Button> */}
+            </Form>
+            <h2>Soru - 2</h2>
+            <Form>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(A) - Cevap - 1"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(B) - Cevap - 2"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(C) - Cevap - 3"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(D) - Cevap - 4"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+              </ListGroup>
+              <Button variant="primary" className="mt-4">
+            
+                <Link to="/hakkimizda" className="btn btn-primary me-3">
+                  Bitir
+                </Link>
+              </Button>
             </Form>
           </Tab>
 
@@ -132,13 +290,91 @@ class Home extends React.Component {
                     name="group1"
                   />
                 </ListGroup.Item>
-
               </ListGroup>
-              <Button variant="primary" className="mt-4">İlerle</Button>
+              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+            </Form>
+            <h2>Soru - 2</h2>
+            <Form>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(A) - Cevap - 1"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(B) - Cevap - 2"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(C) - Cevap - 3"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(D) - Cevap - 4"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+              </ListGroup>
+              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+            </Form>
+
+            <h2>Soru - 3</h2>
+            <Form>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(A) - Cevap - 1"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(B) - Cevap - 2"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(C) - Cevap - 3"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Form.Check
+                    type="radio"
+                    label="(D) - Cevap - 4"
+                    name="group1"
+                  />
+                </ListGroup.Item>
+              </ListGroup>
+              <Button variant="primary" className="mt-4">
+                <Link to="/hakkimizda" className="btn btn-primary me-3">
+                  Bitir
+                </Link>
+              </Button>
             </Form>
           </Tab>
         </Tabs>
-      </div >
+      </div>
     );
   }
 }
