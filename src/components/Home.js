@@ -7,7 +7,48 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      minutes: 60,
+      seconds: 0,
+      isStartedExam: false
+    };
+  }
+
+  startTimer() {
+    this.timer = setInterval(this.decrementTime, 1000);
+    this.setState({ isStartedExam: true });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  decrementTime = () => {
+    const { minutes, seconds } = this.state;
+
+    if (minutes === 0 && seconds === 0) {
+      clearInterval(this.timer);
+      return;
+    }
+
+    if (seconds === 0) {
+      this.setState((prevState) => ({
+        minutes: prevState.minutes - 1,
+        seconds: 59
+      }));
+    } else {
+      this.setState((prevState) => ({
+        seconds: prevState.seconds - 1
+      }));
+    }
+  };
+
   render() {
+    const { minutes, seconds, isStartedExam } = this.state;
+
     return (
       <div className="container">
         <Tabs
@@ -374,7 +415,19 @@ class Home extends React.Component {
             </Form>
           </Tab>
         </Tabs>
-      </div>
+        <br></br>
+        {isStartedExam ?
+          <div>
+            <h5 className="my-3">Sınav Süreniz başlamıştır lütfen yukarıdan ilgili dersi seçiniz</h5>
+            <h1>{`${minutes.toString().padStart(2, '0')}:${seconds
+              .toString()
+              .padStart(2, '0')}`}</h1>
+          </div>
+          :
+          <button onClick={() => this.startTimer()} className="btn btn-primary">Sınavı Başlat</button>
+        }
+      </div >
+
     );
   }
 }
