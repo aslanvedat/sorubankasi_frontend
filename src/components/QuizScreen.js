@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useRoutes } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const questionsFromAPI = [
   {
@@ -9,19 +9,19 @@ const questionsFromAPI = [
     questionAnswers: [
       {
         id: 11,
-        answerName: 'Cavap (A) - eşitir 5'
+        answerName: 'Cevap (A) - eşitir 5'
       },
       {
         id: 12,
-        answerName: 'Cavap (B) - eşitir 3'
+        answerName: 'Cevap (B) - eşitir 3'
       },
       {
         id: 13,
-        answerName: 'Cavap (C) - eşitir 4'
+        answerName: 'Cevap (C) - eşitir 4'
       },
       {
         id: 14,
-        answerName: 'Cavap (D) - eşitir 7'
+        answerName: 'Cevap (D) - eşitir 7'
       }
     ]
   },
@@ -31,19 +31,19 @@ const questionsFromAPI = [
     questionAnswers: [
       {
         id: 21,
-        answerName: 'Cavap (A) - eşitir 20'
+        answerName: 'Cevap (A) - eşitir 20'
       },
       {
         id: 22,
-        answerName: 'Cavap (B) - eşitir 22'
+        answerName: 'Cevap (B) - eşitir 22'
       },
       {
         id: 23,
-        answerName: 'Cavap (C) - eşitir 10'
+        answerName: 'Cevap (C) - eşitir 10'
       },
       {
         id: 24,
-        answerName: 'Cavap (D) - eşitir 25'
+        answerName: 'Cevap (D) - eşitir 25'
       }
     ]
   }
@@ -56,8 +56,6 @@ const QuizScreen = () => {
     selectedAnswer: null,
     selectedQuestionIndex: 0
   })
-
-  const router = useRoutes()
 
   const handleSetState = (obj) => setState(prevState => ({ ...prevState, ...obj }))
 
@@ -74,14 +72,11 @@ const QuizScreen = () => {
   }
 
 
-  // Kaydet Ve Bitir butonuna basınca tetiklenecek
+  /* Kaydet Ve Bitir butonuna basınca tetiklenecek
   const postQuestions = () => {
-    axios.post('https://ÖRNEK', state.questionsWithAnswers).then(res => {
-      if (res.status == 200) {
-        router.push('/home')
-      }
-    })
+    
   }
+  */
 
   useEffect(() => fetchQuestions(), [])
 
