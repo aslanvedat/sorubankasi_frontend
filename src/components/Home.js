@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 class Home extends React.Component {
   componentDidMount() {
-    super.componentDidMount();
   }
   constructor(props) {
     super(props);
@@ -25,11 +24,6 @@ class Home extends React.Component {
     this.setState({ isStartedExam: true });
   }
 
-  componentDidMount(){
-    axios.get("/api/user/").then(res=>{
-      console.log('users',res.data);
-    })
-  }
 
   componentWillUnmount() {
     clearInterval(this.timer);

@@ -60,7 +60,7 @@ const QuizScreen = () => {
   const handleSetState = (obj) => setState(prevState => ({ ...prevState, ...obj }))
 
   const fetchQuestions = () => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    /*fetch('https://jsonplaceholder.typicode.com/posts')
       .then((response) => response.json())
       .then((data) => {
         data = questionsFromAPI
@@ -68,7 +68,14 @@ const QuizScreen = () => {
       })
       .catch((error) => {
         console.error('Soru çekme hatası:', error);
-      });
+      });*/
+
+
+    axios.get('/test/1').then(res => {
+      console.log(res);
+    });
+
+
   }
 
 

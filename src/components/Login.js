@@ -1,9 +1,17 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate, Link, redirect} from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import registrationImage from './../icon/login.png';
 
+axios.interceptors.request.use((config) => {
+    config.baseURL='/api';
+    const token = localStorage.getItem('authToken');
+    if (token) {
+        config.headers.Authorization = 'Bearer ' + token;
+    }
+    return config;
+});
 
 const Login = () => {
 
@@ -13,9 +21,10 @@ const Login = () => {
         event.preventDefault();
 
         if (credential) {
-            axios.post("/api/auth/signin", credential).then(response => {
+            axios.post("/auth/signin", credential).then(response => {
                 //console.log(response.data);
                 localStorage.setItem("authToken", response.data?.JwtToken);
+                window.location.reload();
                 navigate('/home');
                 //this.props.navigate('Home');
 
