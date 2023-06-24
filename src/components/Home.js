@@ -5,8 +5,11 @@ import Tabs from "react-bootstrap/Tabs";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import axios from 'axios';
 class Home extends React.Component {
+  componentDidMount() {
+    super.componentDidMount();
+  }
   constructor(props) {
     super(props);
 
@@ -20,6 +23,12 @@ class Home extends React.Component {
   startTimer() {
     this.timer = setInterval(this.decrementTime, 1000);
     this.setState({ isStartedExam: true });
+  }
+
+  componentDidMount(){
+    axios.get("/api/user/").then(res=>{
+      console.log('users',res.data);
+    })
   }
 
   componentWillUnmount() {
