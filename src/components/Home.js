@@ -5,16 +5,14 @@ import Tabs from "react-bootstrap/Tabs";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+
 class Home extends React.Component {
-  componentDidMount() {
-  }
   constructor(props) {
     super(props);
 
     this.state = {
-      minutes: 60,
-      seconds: 0,
+      minutes: 0,
+      seconds: 5,
       isStartedExam: false
     };
   }
@@ -22,8 +20,10 @@ class Home extends React.Component {
   startTimer() {
     this.timer = setInterval(this.decrementTime, 1000);
     this.setState({ isStartedExam: true });
-  }
 
+    this.timerFinished = setTimeout(this.handleTimerFinish, (this.state.minutes * 60 + this.state.seconds) * 1000);
+
+  }
 
   componentWillUnmount() {
     clearInterval(this.timer);
@@ -49,6 +49,14 @@ class Home extends React.Component {
     }
   };
 
+  handleTimerFinish = () => {
+    clearInterval(this.timer);
+    clearTimeout(this.timerFinished);
+    // İstenilen işlemler burada yapılabilir
+    document.body.innerHTML = "<h1 text align=center> Sınav Süresi Bitti.</h1> ";
+
+  };
+
   render() {
     const { minutes, seconds, isStartedExam } = this.state;
 
@@ -60,362 +68,371 @@ class Home extends React.Component {
           className="mb-3"
           justify
         >
+          {/*Matematik tüm sorular */}
           <Tab eventKey="mat" title="Matematik">
             <h2>Soru - 1</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+            <label>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
-            </Form>
-            <h2>Soru - 2</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+              </Form>
+              <h2>Soru - 2</h2>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
-            </Form>
-            <h2>Soru - 3</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+              </Form>
+              <h2>Soru - 3</h2>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
-            </Form>
-            <h2>Soru - 4</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+              </Form>
+              <h2>Soru - 4</h2>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              <Button variant="primary" className="mt-4">
-                <Link to="/hakkimizda" className="btn btn-primary me-3">
-                  Bitir
-                </Link>
-              </Button>
-            </Form>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                <Button variant="primary" className="mt-4">
+                  <Link to="/hakkimizda" className="btn btn-primary me-3">
+                    Bitir
+                  </Link>
+                </Button>
+              </Form>
+            </label>
           </Tab>
 
+          {/*Fizik tüm sorular */}
           <Tab eventKey="fizik" title="Fizik">
             <h2>Soru - 1</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+            <label>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              {/* <Button variant="primary" className="mt-4">
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                {/* <Button variant="primary" className="mt-4">
                <Link to="/hakkimizda" className="btn btn-primary me-3">Bitir</Link> 
               </Button> */}
-            </Form>
-            <h2>Soru - 2</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+              </Form>
+              <h2>Soru - 2</h2>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              <Button variant="primary" className="mt-4">
-            
-                <Link to="/hakkimizda" className="btn btn-primary me-3">
-                  Bitir
-                </Link>
-              </Button>
-            </Form>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                <Button variant="primary" className="mt-4">
+
+                  <Link to="/hakkimizda" className="btn btn-primary me-3">
+                    Bitir
+                  </Link>
+                </Button>
+              </Form>
+            </label>
           </Tab>
 
+          {/*Kimya tüm sorular */}
           <Tab eventKey="kimya" title="Kimya">
             <h2>Soru - 1</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+            <label>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
-            </Form>
-            <h2>Soru - 2</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+              </Form>
+              <h2>Soru - 2</h2>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
-            </Form>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                {/* <Button variant="primary" className="mt-4">İlerle</Button> */}
+              </Form>
 
-            <h2>Soru - 3</h2>
-            <Form>
-              <ListGroup>
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(A) - Cevap - 1"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+              <h2>Soru - 3</h2>
+              <Form>
+                <ListGroup>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(A) - Cevap - 1"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(B) - Cevap - 2"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(B) - Cevap - 2"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(C) - Cevap - 3"
-                    name="group1"
-                  />
-                </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(C) - Cevap - 3"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <Form.Check
-                    type="radio"
-                    label="(D) - Cevap - 4"
-                    name="group1"
-                  />
-                </ListGroup.Item>
-              </ListGroup>
-              <Button variant="primary" className="mt-4">
-                <Link to="/hakkimizda" className="btn btn-primary me-3">
-                  Bitir
-                </Link>
-              </Button>
-            </Form>
+                  <ListGroup.Item>
+                    <Form.Check
+                      type="radio"
+                      label="(D) - Cevap - 4"
+                      name="group1"
+                    />
+                  </ListGroup.Item>
+                </ListGroup>
+                <Button variant="primary" className="mt-4">
+                  <Link to="/hakkimizda" className="btn btn-primary me-3">
+                    Bitir
+                  </Link>
+                </Button>
+              </Form>
+            </label>
           </Tab>
         </Tabs>
         <br></br>
@@ -427,12 +444,16 @@ class Home extends React.Component {
               .padStart(2, '0')}`}</h1>
           </div>
           :
-          <button onClick={() => this.startTimer()} className="btn btn-primary">Sınavı Başlat</button>
+          <Link to="/quiz" className="btn btn-primary">
+            Sınavı Başlat
+          </Link>
         }
-      </div >
+      </div>
 
     );
   }
 }
+
+{/* <button onClick={() => this.startTimer()} ></button> */ }
 
 export default Home;
