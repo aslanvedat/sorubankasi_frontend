@@ -1,6 +1,6 @@
 //import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 
@@ -117,6 +117,7 @@ const QuizScreen = () => {
   const [timer, setTimer] = useState(0);
   const initialTime = 5;
 
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -125,10 +126,12 @@ const QuizScreen = () => {
       if (countdown > 0) {
         setTimer(countdown);
         countdown -= 1;
-      } else if(countdown = 1 ) {
+      } /* else if(countdown = 1 ) {
         document.body.innerHTML = "<h1 text align=center> Sınav Süresi Bitti. <br> Sonuçları Görmek için <a href = '/hakkimizda'>tıklayınız </a></h1>";
-      } else {
+      }  */else {
         clearInterval(interval);
+        navigate('/sonuc');
+        
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -173,7 +176,7 @@ const QuizScreen = () => {
               İleri
             </span>
           ) : (
-            <Link to="/home" className="btn btn-primary">
+            <Link to="/sonuc" className="btn btn-primary">
               Kaydet ve Bitir
             </Link>
           )}
