@@ -9,7 +9,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import AboutUs from "./components/AboutUs";
 import AddStudent from "./components/AddStudent";
-import QuizScreen from "./components/QuizScreen"
+import QuizScreen from "./components/QuizScreen";
+import ResultScreen from "./components/ResultScreen";
 
 const routeLinks = {
   home: '/home',
@@ -17,6 +18,7 @@ const routeLinks = {
   login: '/giris',
   register: '/kayit-ol',
   quiz: '/quiz',
+  result: '/sonuc',
 }
 
 class App extends React.Component {
@@ -48,6 +50,8 @@ render() {
         <Route path={routeLinks.home} element={<Home />} />
         <Route path={routeLinks.login} element={<Login />} />
         <Route path={routeLinks.quiz} element={<QuizScreen/>} />
+        <Route path={routeLinks.result} element={<ResultScreen/>} />
+
 
       </Routes>
     </div>
