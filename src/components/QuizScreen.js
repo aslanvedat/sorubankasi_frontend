@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
-
+import axios from 'axios';
 
 
 const questionsFromAPI = [
@@ -75,6 +75,19 @@ const QuizScreen = () => {
       });
   }
 
+// const fetchQuestions = () => {
+ 
+//     axios.get('/api/test/1')
+//       .then((response) => {
+//         const data = response.data;
+//         handleSetState({ questions: data });
+//       })
+//       .catch((error) => {
+//         console.error('Soru çekme hatası:', error);
+//       });
+//   }
+  
+
 
   /* Kaydet Ve Bitir butonuna basınca tetiklenecek
   const postQuestions = () => {
@@ -115,7 +128,7 @@ const QuizScreen = () => {
   };
 
   const [timer, setTimer] = useState(0);
-  const initialTime = 5;
+  const initialTime = 60;
 
 
 
