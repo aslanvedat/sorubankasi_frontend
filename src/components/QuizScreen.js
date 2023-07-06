@@ -60,32 +60,24 @@ const QuizScreen = () => {
     selectedAnswer: null,
     selectedQuestionIndex: 0
   })
-
+//state veri gelip gelmedigini gormek icin yazdik
+  useEffect(() => console.log("state:",state),state);
+  
+  
   const handleSetState = (obj) => setState(prevState => ({ ...prevState, ...obj }))
 
-  const fetchQuestions = () => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => response.json())
-      .then((data) => {
-        data = questionsFromAPI
+//axios ile backend teki verileri cektik
+const fetchQuestions = () => {
+    axios.get('/test/1')
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
         handleSetState({ questions: data });
       })
       .catch((error) => {
         console.error('Soru çekme hatası:', error);
       });
   }
-
-// const fetchQuestions = () => {
- 
-//     axios.get('/api/test/1')
-//       .then((response) => {
-//         const data = response.data;
-//         handleSetState({ questions: data });
-//       })
-//       .catch((error) => {
-//         console.error('Soru çekme hatası:', error);
-//       });
-//   }
   
 
 
