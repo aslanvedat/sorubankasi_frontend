@@ -1,7 +1,6 @@
 import Container from 'react-bootstrap/Container';
 import aboutUsImage from './../icon/about.png';
 
-
 const AboutUs = () => {
     return (
         <Container>
