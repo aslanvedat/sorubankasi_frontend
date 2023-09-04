@@ -9,12 +9,19 @@ const AddStudent = () => {
 
   const navigate = useNavigate();
   const [body, setBody] = useState({});
-  const handleRegister = event => {
-    event.preventDefault();
+  const [formData,setFormData]=useState({
+    name:'',
+    mail:'',
+    password:'',
+    passwordTekrar:''
+
+  });
+  const [errors ,setErrors]=useState({});
+  const registerRequest=()=> {
 
     if (body) {
       axios
-        .post("/api/auth/signup", body)
+        .post("/auth/signup", body)
         .then(response => {
           navigate('/giris');
         })
@@ -28,9 +35,37 @@ const AddStudent = () => {
   const onChange = (event) => {
     const value = event.target.value;
     const name = event.target.name;
-
+setFormData({...formData,[name]:value});
     setBody({ ...body, [name]: value });
   };
+
+const handleSubmit=(e)=>{
+  e.preventDefault()
+  const validationErrors={}
+    if(!formData.name.trim()){
+validationErrors.name="user name is requerid";
+    }
+    if(!formData.mail.trim()){
+      validationErrors.mail="mail is requerid"
+    }else if(!/\S+@\S+\.\S+/.test(formData.mail)){
+      validationErrors.mail="mail is not valid"
+    }
+    if(!formData.password.trim()){
+      validationErrors.password="password is requerid"
+    }else if(formData.password.length<5){
+      validationErrors.password="password should be at least 5 char"
+    }
+    if(formData.passwordTekrar!==formData.password){
+      validationErrors.password ="password not mached"
+    }
+    setErrors(validationErrors)
+    if(Object.keys(validationErrors).length===0){
+     registerRequest();
+    }
+
+
+}
+
   return (
     <div>
       <div style={styles.container}>
@@ -38,7 +73,7 @@ const AddStudent = () => {
           <img src={registrationImage} alt="LOGO" style={styles.image} />
         </div>
         <h3 className="my-5">Yeni Hesap Oluştur</h3>
-        <Form style={styles.formContainer}>
+        <Form noValidate style={styles.formContainer} onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>E-mail</Form.Label>
             <Form.Control
@@ -47,6 +82,8 @@ const AddStudent = () => {
               placeholder='E-mail Giriniz'
               onChange={onChange}
             />
+          {errors.mail&&<span>{errors.mail}</span>}
+
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -57,6 +94,8 @@ const AddStudent = () => {
               placeholder="Ad Soyad Giriniz"
               onChange={onChange}
             />
+          {errors.name&&<span>{errors.name}</span>}
+
           </Form.Group>
 
 
@@ -68,6 +107,8 @@ const AddStudent = () => {
               placeholder='Şifre Giriniz'
               onChange={onChange}
             />
+          {errors.password&&<span>{errors.password}</span>}
+
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -78,11 +119,13 @@ const AddStudent = () => {
               placeholder='Şifreyi Tekrar Giriniz'
               onChange={onChange}
             />
+          {errors.passwordTekrar&&<span>{errors.passwordTekrar}</span>}
+
           </Form.Group>
           <button
             type='submit'
             className="btn btn-primary d-block mx-auto"
-            onClick={handleRegister}
+          // onClick={handleRegister}
           >
             Kayıt Ol
           </button>
