@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
-
+import Stomp from "stompjs";
+import SockJS from 'sockjs-client';
 const questionsFromAPI = [
   {
     id: 1,
@@ -59,6 +60,8 @@ const QuizScreen = () => {
     selectedAnswer: null,
     selectedQuestionIndex: 0,
   });
+
+  
   //state veri gelip gelmedigini gormek icin yazdik
   useEffect(() => console.log("state:", state), state);
 
@@ -80,26 +83,22 @@ const QuizScreen = () => {
       });
   };
 
-  // const fetchQuestions = () => {
-  //   fetch('https://jsonplaceholder.typicode.com/posts')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       data = questionsFromAPI
-  //       handleSetState({ questions: data });
-  //     })
-  //     .catch((error) => {
-  //       console.error('Soru çekme hatası:', error);
-  //     });
-  // }
 
-  /* Kaydet Ve Bitir butonuna basınca tetiklenecek
-  const postQuestions = () => {
-    
-  }
-  */
+  function connect() {
+      
+    var socket = new SockJS('http://localhost:8080/api/sendMessage');
+    var stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+      stompClient.subscribe('/topic/messages', function (greeting) {
+      console.log("deneme:"+JSON.parse(greeting.body).name);
+      });
+  stompClient.send('Hello from React!');
 
-  useEffect(() => fetchQuestions(), []);
-
+    });
+   }
+  useEffect(() => {fetchQuestions();
+    connect();
+  }, []);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionChange = (optionId) => {
