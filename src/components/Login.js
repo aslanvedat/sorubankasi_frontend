@@ -54,8 +54,9 @@ const Login = () => {
 
     return (
         <div>
+            {/* <React.StrictMode>  </React.StrictMode> div in altinda ki kisimlari aldim ama ise yaramadi*/}
             <div style={styles.container}>
-                <div style={styles.imagecontainer}>
+                <div style={styles.imagecontainer}>  
                     <img src={registrationImage} alt="LOGO" style={styles.image}/>
                 </div>
                 <Form style={styles.formContainer}>
@@ -88,6 +89,7 @@ const Login = () => {
                     </button>
                 </Form>
             </div>
+          
         </div>
     );
 

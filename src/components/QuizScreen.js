@@ -5,53 +5,7 @@ import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
 import Stomp from "stompjs";
-import SockJS from 'sockjs-client';
-const questionsFromAPI = [
-  {
-    id: 1,
-    questionName: "Soru (1) - 2+2 Kaçtır Aşağıdakilerden Birini Seçiniz.",
-    questionAnswers: [
-      {
-        id: 11,
-        answerName: "Cevap (A) - eşitir 5",
-      },
-      {
-        id: 12,
-        answerName: "Cevap (B) - eşitir 3",
-      },
-      {
-        id: 13,
-        answerName: "Cevap (C) - eşitir 4",
-      },
-      {
-        id: 14,
-        answerName: "Cevap (D) - eşitir 7",
-      },
-    ],
-  },
-  {
-    id: 2,
-    questionName: "Soru (2) - 5*5 Kaçtır Aşağıdakilerden Birini Seçiniz.",
-    questionAnswers: [
-      {
-        id: 21,
-        answerName: "Cevap (A) - eşitir 20",
-      },
-      {
-        id: 22,
-        answerName: "Cevap (B) - eşitir 22",
-      },
-      {
-        id: 23,
-        answerName: "Cevap (C) - eşitir 10",
-      },
-      {
-        id: 24,
-        answerName: "Cevap (D) - eşitir 25",
-      },
-    ],
-  },
-];
+import SockJS from "sockjs-client";
 
 const QuizScreen = () => {
   const [state, setState] = useState({
@@ -61,9 +15,8 @@ const QuizScreen = () => {
     selectedQuestionIndex: 0,
   });
 
-  
   //state veri gelip gelmedigini gormek icin yazdik
-  useEffect(() => console.log("state:", state), state);
+  //useEffect(() => console.log("state:", state), state);
 
   const handleSetState = (obj) =>
     setState((prevState) => ({ ...prevState, ...obj }));
@@ -83,22 +36,33 @@ const QuizScreen = () => {
       });
   };
 
+  let socket;
 
-  function connect() {
-      
-    var socket = new SockJS('http://localhost:8080/api/sendMessage');
-    var stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-      stompClient.subscribe('/topic/messages', function (greeting) {
-      console.log("deneme:"+JSON.parse(greeting.body).name);
+  useEffect(() => {
+    fetchQuestions();
+    socket = new SockJS("http://localhost:8080/api/sendMessage");
+    console.log("WebSocket opened: ", socket);
+    if (socket) {
+      const stompClient = Stomp.over(socket);
+      stompClient?.connect({}, (frame) => {
+        stompClient.subscribe("/topic/messages", (data) => {
+          setTimer(data.body);
+        });
+        stompClient?.send("/app/sendMessage", {}, true);
       });
-  stompClient.send('Hello from React!');
-
-    });
-   }
-  useEffect(() => {fetchQuestions();
-    connect();
+    }
   }, []);
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    return () => {
+      if (socket) {
+        console.log("Closed webSocket: ", socket);
+        socket.close();
+      }
+    };
+  }, []);
+
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionChange = (optionId) => {
@@ -126,30 +90,11 @@ const QuizScreen = () => {
     });
   };
 
-  const isLastQuestion = () => {
+  const isLastQuestion = ({ stompClient }) => {
     return state.questions.length === state.selectedQuestionIndex;
   };
 
-  const [timer, setTimer] = useState(0);
-  const initialTime = 10;
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    let countdown = initialTime;
-    const interval = setInterval(() => {
-      if (countdown > 0) {
-        setTimer(countdown);
-        countdown -= 1;
-      } /* else if(countdown = 1 ) {
-        document.body.innerHTML = "<h1 text align=center> Sınav Süresi Bitti. <br> Sonuçları Görmek için <a href = '/hakkimizda'>tıklayınız </a></h1>";
-      }  */ else {
-        clearInterval(interval);
-        navigate("/sonuc");
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  // const navigate = useNavigate();//sınav sonucu icin gerekli olabilir
 
   return (
     <div className="container">
