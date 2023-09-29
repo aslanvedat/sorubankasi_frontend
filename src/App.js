@@ -13,7 +13,7 @@ import AboutUs from "./components/AboutUs";
 import AddStudent from "./components/AddStudent";
 import QuizScreen from "./components/QuizScreen";
 import ResultScreen from "./components/ResultScreen";
-
+import { DataProvider } from './components/DataContext'
 
 const App = () => {
 
@@ -71,6 +71,7 @@ const App = () => {
                   </Navbar.Collapse>
               </Container>
           </Navbar>
+          <DataProvider> 
           <Routes>
               <Route path={routeLinks.aboutus} element={<AboutUs/>}/>
               <Route path={routeLinks.register} element={<AddStudent/>}/>
@@ -78,8 +79,8 @@ const App = () => {
               <Route path={routeLinks.login} element={<Login/>}/>
               <Route path={routeLinks.quiz} element={<QuizScreen/>}/>
               <Route path={routeLinks.result} element={<ResultScreen/>} />
-
           </Routes>
+          </DataProvider>
       </div>
   );             }
 

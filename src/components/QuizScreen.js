@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Route } from "react-router-dom";
 //import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import Stomp from "stompjs";
 import SockJS from "sockjs-client";
 import { v4 as uuid } from "uuid";
+import { useScore } from './DataContext';
 
 const QuizScreen = () => {
   const [test, setTest] = useState(null);
@@ -16,6 +17,8 @@ const QuizScreen = () => {
   const [hovered, setHovered] = useState(null);
   const [answers, setAnswers] = useState([]);
 
+  const {score, setScore } = useScore();
+ 
   //axios ile backend teki verileri cektik
 
   const fetchQuestions = () => {
@@ -69,7 +72,6 @@ const QuizScreen = () => {
     if (timer == "0") {
 
      navigate("/sonuc");
-    //  navigation.navigate("/sonuc",{veri});
     }
   }, [timer]);
 
@@ -106,7 +108,8 @@ const QuizScreen = () => {
     axios
       .post("/test/2/score", body)
       .then((response) => {
-        const data = response.data;
+        const data = response.data?.result;
+        setScore(data);
         console.log("post istegi basarili oldu:", data);
       })
       .catch((error) => {
@@ -122,9 +125,7 @@ const QuizScreen = () => {
 
     if (!siradakiSoru) {
       resultTest();
- 
      navigate("/sonuc");
-    //navigation.navigate("/sonuc",{veri})
     }
 
   };
@@ -132,6 +133,10 @@ const QuizScreen = () => {
   useEffect(() => {
     console.log("cevaplarin oldugu list:", answers);
   }, [answers]);
+
+
+  
+
   return (
     <div className="container">
       <h1 className="my-3">Quiz Ekranı</h1>
@@ -183,16 +188,16 @@ const QuizScreen = () => {
               İleri
             </span>
           ) : (
-            <Link to="/sonuc" className="btn btn-primary">
-              Kaydet ve Bitir
-            </Link>
+        
+            <span></span>
           )}
         </div>
       )
       : (
-        <Link to="/sonuc" onClick={resultTest} className="btn btn-primary">
+  
+        <button  onClick={ handleOptionSelect} className="btn btn-primary">
           Kaydet ve Bitir
-        </Link>
+        </button>
       )
       }
     </div>
