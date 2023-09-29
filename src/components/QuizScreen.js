@@ -1,17 +1,20 @@
-//import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import ListGroup from "react-bootstrap/ListGroup";
+//import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import Stomp from "stompjs";
 import SockJS from "sockjs-client";
 import { v4 as uuid } from "uuid";
+
 const QuizScreen = () => {
-  const [questions,setQuestions] = useState(null);
-  const [selectedQuestion,setSelectedQuestion] = useState(null);
-  //state veri gelip gelmedigini gormek icin yazdik
-  //useEffect(() => console.log("state:", state), state);a
+  const [test, setTest] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [siradakiSoru, setSiradakiSoru] = useState(true);
+  const navigate = useNavigate();
+//  const navigation=useNavigation();
+  const [timer, setTimer] = useState(null);
+  const [hovered, setHovered] = useState(null);
+  const [answers, setAnswers] = useState([]);
 
   //axios ile backend teki verileri cektik
 
@@ -19,24 +22,31 @@ const QuizScreen = () => {
     axios
       .get("/test/2")
       .then((response) => {
-         const data=response.data;
-         console.log("my data",data);
-        setQuestions(data)
+        const data = response.data;
+        console.log("my data", data);
+        setTest(data);
       })
       .catch((error) => {
         console.error("Soru çekme hatası:", error);
       });
   };
 
+  //son soru 2 kez geliyor !!!!!!!!!!!!!
 
-  useEffect(()=>{
-    setSelectedQuestion(questions?.questions[1]);
-    console.log('questions:',questions);
-  },[questions])
+  let selectedQuestionIndex = 0;
+  const nextQuestion = () => {
+    const index = test?.questions.indexOf(selectedQuestion);
+    if (test?.questions[index + 1] == null) {
+      setSiradakiSoru(false);
+    } else {
+      const newQuestion = test?.questions[index + 1];
+      setSelectedQuestion(newQuestion);
+    }
+  };
 
   let socket;
   let sinavUrl = uuid();
-  const connectSocket=()=>{
+  const connectSocket = () => {
     socket = new SockJS("http://localhost:8080/api/sendMessage");
     console.log("WebSocket opened: ", socket);
     if (socket) {
@@ -46,18 +56,38 @@ const QuizScreen = () => {
           setTimer(data.body);
         });
         stompClient?.send("/app/sendMessage/" + sinavUrl, {}, true);
-      })
+      });
     }
-  }
+  };
+  useEffect(() => {
+    setSelectedQuestion(test?.questions[selectedQuestionIndex]);
+    console.log("questions:", test);
+  }, [test]);
+
+  //sure bittiginde sayfa degisikligi icin bayrak kontrolu yapan method
+  useEffect(() => {
+    if (timer == "0") {
+
+     navigate("/sonuc");
+    //  navigation.navigate("/sonuc",{veri});
+    }
+  }, [timer]);
+
+  //butonlarin üzerine fare geldiginde renk degistirmesini saglayacak olan method
+  const handleMouseEnter = (optionKey) => {
+    setHovered(optionKey);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(null);
+  };
 
   //sinavUrl yerine backend te getMapping in yolu gelecek
   console.log("sinav url:" + sinavUrl);
   useEffect(() => {
-   fetchQuestions();
-   connectSocket();
-    
+    fetchQuestions();
+    connectSocket();
   }, []);
-  const [timer, setTimer] = useState(0);
 
   useEffect(() => {
     return () => {
@@ -67,74 +97,104 @@ const QuizScreen = () => {
       }
     };
   }, []);
+  //verileri giderken 2 side string oldugu için olabilir
+  const resultTest = () => {
+    const body = {
+      testId: test.id,
+      answers: answers,
+    };
+    axios
+      .post("/test/2/score", body)
+      .then((response) => {
+        const data = response.data;
+        console.log("post istegi basarili oldu:", data);
+      })
+      .catch((error) => {
+        console.error("Soru cevap  hatasi:", error);
+      });
+  };
 
-  //burasi cevap Id ile ecalisiyor cevap sikkini isaretleme ile
-  const [selectedOption, setSelectedOption] = useState(null);
+  //soru cevaplarinin tutuldugu method
+  const handleOptionSelect = (questionAnswer, questionId) => {
+    nextQuestion();
 
-  
+    setAnswers([...answers, { questionAnswer, questionId }]);
 
-  // const navigate = useNavigate();//sınav sonucu icin gerekli olabilir
+    if (!siradakiSoru) {
+      resultTest();
+ 
+     navigate("/sonuc");
+    //navigation.navigate("/sonuc",{veri})
+    }
 
+  };
+
+  useEffect(() => {
+    console.log("cevaplarin oldugu list:", answers);
+  }, [answers]);
   return (
     <div className="container">
       <h1 className="my-3">Quiz Ekranı</h1>
-      <h4 textalign="center">Kalan Süre {timer} saniye</h4>{" "}
+
+      <h4 textalign="center">Kalan Süre {timer} saniye</h4>
+
       {/* Timer'ın görüntülendiği kısım */}
       {/* form icindeki hic bir sey ekrana basilmiyor       */}
-      {selectedQuestion && (
-
-        <form>
-          {console.log("form deneme:")}
-          { (
+      {selectedQuestion && siradakiSoru?(
+        <div>
+          {
             <div className="options mb-5">
-              <h5 className="mb-3">{selectedQuestion?.text}</h5>
+              <h2 className="mb-3">{selectedQuestion?.text}</h2>
 
-              <ul>
-          {Object.keys(selectedQuestion.options).map((optionKey) => (
-            <li
-              key={optionKey}
-              onClick={() => this.handleOptionSelect(optionKey)}//tiklanöa icin kulanilan method
-            
-            >
-              {selectedQuestion.options[optionKey]}
-            </li>
-          ))}
-        </ul>
-       
-              {/* {selectedQuestion?.options((answer) => (//buraya şıklar gelecek 
-                <div key={answer}>
-                  <label>
-                    <Form>
-                      <ListGroup>
-                        <ListGroup.Item>
-                          <Form.Check
-                            type="radio"
-                            name={"option-" + setSelectedQuestion.id}
-                            value={answer.id}
-                            checked={selectedOption === answer.id} // Sadece seçili şıkı işaretleyelim
-                            // onChange={() => handleOptionChange(answer.id)}
-                          />
-                          {answer.answerName}
-                        </ListGroup.Item>
-                      </ListGroup>
-                    </Form>
-                  </label>
-                </div>
-              ))} */}
-
+              <ul
+                style={{
+                  listStyle: "none",
+                  display: "grid",
+                  gridGap: "10px",
+                }}
+              >
+                {Object.keys(selectedQuestion.options).map((optionKey) => (
+                  <button
+                    onMouseEnter={() => handleMouseEnter(optionKey)}
+                    onMouseLeave={handleMouseLeave}
+                    key={optionKey}
+                    onClick={() =>
+                      handleOptionSelect(optionKey, selectedQuestion?.id)
+                    }
+                    style={{
+                      color: hovered === optionKey ? "red" : "black",
+                      fontSize: "20px",
+                    }}
+                    // key={optionKey}
+                    // onClick={() => this.handleOptionSelect(optionKey)} //tiklanöa icin kulanilan method
+                  >
+                    <li>
+                      {" "}
+                      <span>{optionKey}: </span>
+                      {selectedQuestion.options[optionKey]}
+                    </li>
+                  </button>
+                ))}
+              </ul>
             </div>
-          )}
-          {/* {!isLastQuestion() ? (
-            <span className="btn btn-primary" onClick={handleClickNext}>
+          }
+          {siradakiSoru ? (
+            <span className="btn btn-primary" onClick={nextQuestion}>
               İleri
             </span>
           ) : (
             <Link to="/sonuc" className="btn btn-primary">
               Kaydet ve Bitir
             </Link>
-          )} */}
-        </form>
-      )}
+          )}
+        </div>
+      )
+      : (
+        <Link to="/sonuc" onClick={resultTest} className="btn btn-primary">
+          Kaydet ve Bitir
+        </Link>
+      )
+      }
     </div>
   );
 };
