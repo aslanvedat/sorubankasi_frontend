@@ -1,7 +1,6 @@
 
 import React, {useState,useEffect} from "react";
 import {Link, Route,useNavigate, Routes} from "react-router-dom";
-//import RegisterScreen from "./components/RegisterScreen";
 import Home from "./components/Home"
 import Login from "./components/Login"
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +15,8 @@ import ResultScreen from "./components/ResultScreen";
 import { DataProvider } from './components/DataContext'
 
 const App = () => {
+    const navigate = useNavigate();
+    const [isLogged, setLogged] = useState(false);
 
   const routeLinks = {
       home: '/home',
@@ -26,24 +27,17 @@ const App = () => {
       result: '/sonuc',
   }
 
-  const navigate = useNavigate();
-
-  const [isLogged, setLogged] = useState(false);
-
-
   useState(() => {
       if (localStorage.getItem('authToken')) {
           setLogged(true);
       }
   }, []);
 
-
   const logout = () => {
       localStorage.removeItem('authToken');
       setLogged(false);
       navigate('/giris');
   }
-
 
   return (
       <div>

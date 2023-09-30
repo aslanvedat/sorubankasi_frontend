@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, Route } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 //import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import Stomp from "stompjs";
 import SockJS from "sockjs-client";
 import { v4 as uuid } from "uuid";
-import { useScore } from './DataContext';
+import { useScore } from "./DataContext";
 
 const QuizScreen = () => {
   const [test, setTest] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [siradakiSoru, setSiradakiSoru] = useState(true);
   const navigate = useNavigate();
-//  const navigation=useNavigation();
   const [timer, setTimer] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [answers, setAnswers] = useState([]);
+  const { score, setScore } = useScore();
 
-  const {score, setScore } = useScore();
- 
   //axios ile backend teki verileri cektik
 
   const fetchQuestions = () => {
@@ -33,8 +31,6 @@ const QuizScreen = () => {
         console.error("Soru çekme hatası:", error);
       });
   };
-
-  //son soru 2 kez geliyor !!!!!!!!!!!!!
 
   let selectedQuestionIndex = 0;
   const nextQuestion = () => {
@@ -51,7 +47,6 @@ const QuizScreen = () => {
   let sinavUrl = uuid();
   const connectSocket = () => {
     socket = new SockJS("http://localhost:8080/api/sendMessage");
-    console.log("WebSocket opened: ", socket);
     if (socket) {
       const stompClient = Stomp.over(socket);
       stompClient?.connect({}, (frame) => {
@@ -62,16 +57,15 @@ const QuizScreen = () => {
       });
     }
   };
+
   useEffect(() => {
     setSelectedQuestion(test?.questions[selectedQuestionIndex]);
-    console.log("questions:", test);
   }, [test]);
 
   //sure bittiginde sayfa degisikligi icin bayrak kontrolu yapan method
   useEffect(() => {
     if (timer == "0") {
-
-     navigate("/sonuc");
+      navigate("/sonuc");
     }
   }, [timer]);
 
@@ -79,13 +73,11 @@ const QuizScreen = () => {
   const handleMouseEnter = (optionKey) => {
     setHovered(optionKey);
   };
-
   const handleMouseLeave = () => {
     setHovered(null);
   };
 
   //sinavUrl yerine backend te getMapping in yolu gelecek
-  console.log("sinav url:" + sinavUrl);
   useEffect(() => {
     fetchQuestions();
     connectSocket();
@@ -94,12 +86,11 @@ const QuizScreen = () => {
   useEffect(() => {
     return () => {
       if (socket) {
-        console.log("Closed webSocket: ", socket);
         socket.close();
       }
     };
   }, []);
-  //verileri giderken 2 side string oldugu için olabilir
+
   const resultTest = () => {
     const body = {
       testId: test.id,
@@ -110,7 +101,6 @@ const QuizScreen = () => {
       .then((response) => {
         const data = response.data?.result;
         setScore(data);
-        console.log("post istegi basarili oldu:", data);
       })
       .catch((error) => {
         console.error("Soru cevap  hatasi:", error);
@@ -120,37 +110,25 @@ const QuizScreen = () => {
   //soru cevaplarinin tutuldugu method
   const handleOptionSelect = (questionAnswer, questionId) => {
     nextQuestion();
-
     setAnswers([...answers, { questionAnswer, questionId }]);
-
     if (!siradakiSoru) {
       resultTest();
-     navigate("/sonuc");
+      navigate("/sonuc");
     }
-
   };
-
-  useEffect(() => {
-    console.log("cevaplarin oldugu list:", answers);
-  }, [answers]);
-
-
-  
 
   return (
     <div className="container">
       <h1 className="my-3">Quiz Ekranı</h1>
 
+      {/* Timer'ın görüntülendiği kısım */}
       <h4 textalign="center">Kalan Süre {timer} saniye</h4>
 
-      {/* Timer'ın görüntülendiği kısım */}
-      {/* form icindeki hic bir sey ekrana basilmiyor       */}
-      {selectedQuestion && siradakiSoru?(
+      {selectedQuestion && siradakiSoru ? (
         <div>
           {
             <div className="options mb-5">
               <h2 className="mb-3">{selectedQuestion?.text}</h2>
-
               <ul
                 style={{
                   listStyle: "none",
@@ -170,8 +148,6 @@ const QuizScreen = () => {
                       color: hovered === optionKey ? "red" : "black",
                       fontSize: "20px",
                     }}
-                    // key={optionKey}
-                    // onClick={() => this.handleOptionSelect(optionKey)} //tiklanöa icin kulanilan method
                   >
                     <li>
                       {" "}
@@ -184,22 +160,18 @@ const QuizScreen = () => {
             </div>
           }
           {siradakiSoru ? (
-            <span className="btn btn-primary" onClick={nextQuestion}>
+            <button className="btn btn-primary" onClick={nextQuestion}>
               İleri
-            </span>
+            </button>
           ) : (
-        
             <span></span>
           )}
         </div>
-      )
-      : (
-  
-        <button  onClick={ handleOptionSelect} className="btn btn-primary">
+      ) : (
+        <button onClick={handleOptionSelect} className="btn btn-primary">
           Kaydet ve Bitir
         </button>
-      )
-      }
+      )}
     </div>
   );
 };

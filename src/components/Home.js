@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 class Home extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       minutes: 0,
       seconds: 5,
@@ -20,9 +19,7 @@ class Home extends React.Component {
   startTimer() {
     this.timer = setInterval(this.decrementTime, 1000);
     this.setState({ isStartedExam: true });
-
     this.timerFinished = setTimeout(this.handleTimerFinish, (this.state.minutes * 60 + this.state.seconds) * 1000);
-
   }
 
   componentWillUnmount() {
@@ -31,7 +28,6 @@ class Home extends React.Component {
 
   decrementTime = () => {
     const { minutes, seconds } = this.state;
-
     if (minutes === 0 && seconds === 0) {
       clearInterval(this.timer);
       return;
@@ -52,9 +48,7 @@ class Home extends React.Component {
   handleTimerFinish = () => {
     clearInterval(this.timer);
     clearTimeout(this.timerFinished);
-    // İstenilen işlemler burada yapılabilir
     document.body.innerHTML = "<h1 text align=center> Sınav Süresi Bitti.</h1> ";
-
   };
 
   render() {
@@ -453,7 +447,5 @@ class Home extends React.Component {
     );
   }
 }
-
-{/* <button onClick={() => this.startTimer()} ></button> */ }
 
 export default Home;

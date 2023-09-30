@@ -1,10 +1,9 @@
-// DataContext.js
 import React, { createContext, useContext, useState } from 'react';
 
-// Context'i oluşturun
+// Context'i oluşturuldu
 const DataContext = createContext(null);
 
-// Context verilerini paylaşacak olan bir Provider bileşeni oluşturun
+// Context verilerini paylaşacak olan bir Provider bileşeni oluşturuldu
 export const DataProvider = ({ children }) => {
   const [score, setScore] = useState(null);
 
@@ -15,7 +14,7 @@ export const DataProvider = ({ children }) => {
   );
 };
 
-// Verileri daha kolay erişim için özel bir hook oluşturun
+// Verileri daha kolay erişim için özel bir hook oluşturuldu
 export const useScore = () => {
   return useContext(DataContext);
 };
