@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useScore } from "./DataContext";
 
 const ResultScreen = () => {
-  const { score } = useScore();
+  const { score } = useScore("0");
 
   return (
     <div>

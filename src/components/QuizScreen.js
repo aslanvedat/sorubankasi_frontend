@@ -15,10 +15,9 @@ const QuizScreen = () => {
   const [timer, setTimer] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [answers, setAnswers] = useState([]);
-  const { score, setScore } = useScore();
+  const { setScore } = useScore();
 
   //axios ile backend teki verileri cektik
-
   const fetchQuestions = () => {
     axios
       .get("/test/2")
@@ -43,12 +42,16 @@ const QuizScreen = () => {
     }
   };
 
+  useEffect(() => {
+    setSelectedQuestion(test?.questions[selectedQuestionIndex]);
+  }, [test]);
+
   let socket;
   let sinavUrl = uuid();
   const connectSocket = () => {
     socket = new SockJS("http://localhost:8080/api/sendMessage");
     if (socket) {
-      const stompClient = Stomp.over(socket);
+      const stompClient = Stomp.over(socket);//web socket baglantisi kullanilarak istemci olusturulur
       stompClient?.connect({}, (frame) => {
         stompClient.subscribe("/topic/messages/" + sinavUrl, (data) => {
           setTimer(data.body);
@@ -57,10 +60,6 @@ const QuizScreen = () => {
       });
     }
   };
-
-  useEffect(() => {
-    setSelectedQuestion(test?.questions[selectedQuestionIndex]);
-  }, [test]);
 
   //sure bittiginde sayfa degisikligi icin bayrak kontrolu yapan method
   useEffect(() => {
@@ -77,7 +76,7 @@ const QuizScreen = () => {
     setHovered(null);
   };
 
-  //sinavUrl yerine backend te getMapping in yolu gelecek
+ //burasi rest api ve web socket'in tetiklendigi useEffect
   useEffect(() => {
     fetchQuestions();
     connectSocket();
@@ -91,6 +90,7 @@ const QuizScreen = () => {
     };
   }, []);
 
+  //test sonucunu aldigimiz rest api istegi burdan atiliyor
   const resultTest = () => {
     const body = {
       testId: test.id,
